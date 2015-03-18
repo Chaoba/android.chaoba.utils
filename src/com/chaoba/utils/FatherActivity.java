@@ -37,10 +37,6 @@ public abstract class FatherActivity extends Activity {
 		mLoading = new LoadingDialog(mContext);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(com.chaoba.utils.R.layout.father_layout);
-		View v1=findViewById(R.id.title_split);
-		View v3=findViewById(R.id.title_split1);
-		View v2=findViewById(R.id.title_bar);
-		
 		mBackButton = (ImageButton) findViewById(com.chaoba.utils.R.id.back_button);
 		mBackButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -61,8 +57,6 @@ public abstract class FatherActivity extends Activity {
 	 */
 	public void setView(int id) {
 		LayoutInflater.from(this).inflate(id, mBodyViewGroup);
-		findViews();
-
 	}
 
 	/**
@@ -72,6 +66,9 @@ public abstract class FatherActivity extends Activity {
 		mTitleView.setText(stringId);
 	}
 
+	public void setTitle(String title) {
+		mTitleView.setText(title);
+	}
 	/**
 	 * set the right button of current page
 	 */
@@ -101,11 +98,6 @@ public abstract class FatherActivity extends Activity {
 			return null;
 		}
 	}
-
-	/**
-	 * implement this method to find your views
-	 */
-	public abstract void findViews();
 
 	/**
 	 * implement this method to do some init jobs,such as
@@ -151,7 +143,7 @@ public abstract class FatherActivity extends Activity {
 	@Override
 	public void finish() {
 		super.finish();
-		overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+//		overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 	}
 
 	@Override
