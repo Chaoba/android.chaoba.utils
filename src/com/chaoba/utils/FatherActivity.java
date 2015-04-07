@@ -32,8 +32,8 @@ public abstract class FatherActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext = this;
-		mLayoutInflater=(LayoutInflater)mContext.getSystemService
-			      (Context.LAYOUT_INFLATER_SERVICE);
+		mLayoutInflater = (LayoutInflater) mContext
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mLoading = new LoadingDialog(mContext);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(com.chaoba.utils.R.layout.father_layout);
@@ -69,14 +69,13 @@ public abstract class FatherActivity extends Activity {
 	public void setTitle(String title) {
 		mTitleView.setText(title);
 	}
+
 	/**
 	 * set the right button of current page
 	 */
 	public void setRightButton(int stringId, boolean show) {
 		mRrightButton.setText(stringId);
-		if (!show) {
-			mRrightButton.setVisibility(View.GONE);
-		}
+		mRrightButton.setVisibility(show ? View.VISIBLE : View.GONE);
 	}
 
 	/**
@@ -143,7 +142,8 @@ public abstract class FatherActivity extends Activity {
 	@Override
 	public void finish() {
 		super.finish();
-//		overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+		// overridePendingTransition(R.anim.slide_right_in,
+		// R.anim.slide_right_out);
 	}
 
 	@Override
