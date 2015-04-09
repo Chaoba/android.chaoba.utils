@@ -8,6 +8,9 @@ import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
@@ -48,6 +51,21 @@ public class Util {
 		intent.setAction(Intent.ACTION_DIAL);
 		intent.setData(Uri.parse("tel:" + number));
 		context.startActivity(intent);
+	}
+
+	public static String getVersion(Context c) {
+		PackageManager manager = c.getPackageManager();
+		PackageInfo info = null;
+		try {
+			info = manager.getPackageInfo(c.getPackageName(), 0);
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		if (info != null) {
+			return info.versionName;
+		} else {
+			return "1.0";
+		}
 	}
 
 	/**
