@@ -5,5 +5,5 @@ import com.chaoba.utils.http.HttpRequestProxy.ResponseWrapper;
 
 public interface AsynRequestCallback {
 
-    void onCallback(int ackCode, ResponseWrapper wrapper);
+    void onCallback(int requestCode,int ackCode, ResponseWrapper wrapper);
 }

@@ -37,7 +37,7 @@ public class HttpRequest {
 	 * @param callback
 	 * @param proxy
 	 */
-	public void asynPost(String url, JsonHttpParams params, Dialog dialog,
+	public void asynPost(int requsetCode,String url, JsonHttpParams params, Dialog dialog,
 			Header[] headers, AsynRequestCallback callback,
 			HttpRequestProxy proxy) {
 		Log.d(TAG, "asynPost--****" + url);
@@ -57,7 +57,7 @@ public class HttpRequest {
 			entity = params.convertParamsToEntity(jsonMode);
 			post.setEntity(entity);
 		}
-		new RequestAsyncTask(dialog, httpClient, callback, proxy)
+		new RequestAsyncTask(requsetCode,dialog, httpClient, callback, proxy)
 				.executeOnExecutor(executors, post);
 	}
 	
@@ -71,7 +71,7 @@ public class HttpRequest {
 	 * @param callback
 	 * @param proxy
 	 */
-	public void asynPost(String url, JsonHttpParams params, String filePath,
+	public void asynPost(int requsetCode,String url, JsonHttpParams params, String filePath,
 			Dialog dialog, Header[] headers, AsynRequestCallback callback,
 			HttpRequestProxy proxy) {
 		Log.d(TAG, "asynPostFile" + url);
@@ -102,11 +102,11 @@ public class HttpRequest {
 			e.printStackTrace();
 		}
 		post.setEntity(mpEntity);
-		new RequestAsyncTask(dialog, httpClient, callback, proxy)
+		new RequestAsyncTask(requsetCode,dialog, httpClient, callback, proxy)
 				.executeOnExecutor(executors, post);
 	}
 
-	public void asynGet(String url, JsonHttpParams params, Dialog dialog,
+	public void asynGet(int requsetCode,String url, JsonHttpParams params, Dialog dialog,
 			Header[] headers, AsynRequestCallback callback,
 			HttpRequestProxy proxy) {
 		Log.d(TAG, "asynGet" + url);
@@ -116,7 +116,7 @@ public class HttpRequest {
 
 		HttpGet get = new HttpGet(url);
 
-		new RequestAsyncTask(dialog, httpClient, callback, proxy)
+		new RequestAsyncTask(requsetCode,dialog, httpClient, callback, proxy)
 				.executeOnExecutor(executors, get);
 	}
 

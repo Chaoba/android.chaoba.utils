@@ -29,9 +29,11 @@ public class RequestAsyncTask extends AsyncTask<Object, Integer, Integer> {
 	private AsynRequestCallback callback;
 	private ResponseWrapper wrapper;
 	private HttpRequestProxy proxy;
+	private int mRequestCode;
 
-	public RequestAsyncTask(Dialog dialog, HttpClient client,
+	public RequestAsyncTask(int requsetCode, Dialog dialog, HttpClient client,
 			AsynRequestCallback callback, HttpRequestProxy proxy) {
+		this.mRequestCode = requsetCode;
 		this.dialog = dialog;
 		this.client = client;
 		this.callback = callback;
@@ -53,7 +55,7 @@ public class RequestAsyncTask extends AsyncTask<Object, Integer, Integer> {
 			}
 		}
 		if (callback != null && result != HttpStatus.SC_UNAUTHORIZED) {
-			callback.onCallback(result, wrapper);
+			callback.onCallback(mRequestCode, result, wrapper);
 		}
 	}
 

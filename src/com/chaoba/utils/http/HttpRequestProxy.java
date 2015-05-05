@@ -13,7 +13,6 @@ import com.google.gson.JsonParser;
 public abstract class HttpRequestProxy<Params> {
 	private static final String TAG = "ObdHttpRequestProxy";
 
-
 	public void compositeParams(String... params) {
 		if (params != null) {
 			for (String para : params) {
@@ -24,13 +23,11 @@ public abstract class HttpRequestProxy<Params> {
 
 	public abstract Header[] compositeHead();
 
+	public abstract void request(AsynRequestCallback callback, int requsetCode,
+			Header[] header, Dialog dialog);
 
-	public abstract void request(AsynRequestCallback callback, Header[] header,
-			Dialog dialog);
-
-	
-	public final void startRequest(AsynRequestCallback callback, Dialog dialog,
-			String... params) {
+	public final void startRequest(AsynRequestCallback callback,
+			int requsetCode, Dialog dialog, String... params) {
 		if (params != null) {
 			for (String param : params) {
 				if (param != null) {
@@ -39,21 +36,17 @@ public abstract class HttpRequestProxy<Params> {
 			}
 		}
 		compositeParams(params);
-		request(callback, compositeHead(), dialog);
+		request(callback, requsetCode, compositeHead(), dialog);
 	}
 
-	
-	public abstract ResponseWrapper convertJsonToObject(
-			String json);
-
+	public abstract ResponseWrapper convertJsonToObject(String json);
 
 	public ResponseWrapper convertErrorJsonToObject(String json) {
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
 		JsonArray Jarray = parser.parse(json).getAsJsonArray();
 		JsonElement obj = Jarray.get(0);
-		ResponseWrapper errorMsg = gson.fromJson(obj,
-				ResponseWrapper.class);
+		ResponseWrapper errorMsg = gson.fromJson(obj, ResponseWrapper.class);
 		return errorMsg;
 	}
 
