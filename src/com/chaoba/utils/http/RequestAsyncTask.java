@@ -14,6 +14,7 @@ import android.app.Dialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.chaoba.utils.Logger;
 import com.chaoba.utils.http.HttpRequestProxy.ResponseWrapper;
 
 /**
@@ -54,7 +55,9 @@ public class RequestAsyncTask extends AsyncTask<Object, Integer, Integer> {
 			} catch (IllegalArgumentException e) {
 			}
 		}
+		Logger.d("on post");
 		if (callback != null && result != HttpStatus.SC_UNAUTHORIZED) {
+			Logger.d("on callback");
 			callback.onCallback(mRequestCode, result, wrapper);
 		}
 	}
@@ -86,15 +89,17 @@ public class RequestAsyncTask extends AsyncTask<Object, Integer, Integer> {
 
 	private int sendRequest(int resCode, HttpUriRequest request) {
 		try {
+			Logger.i(request.toString());
+			
 			HttpResponse response = client.execute(request);
 			resCode = response.getStatusLine().getStatusCode();
-			String json = EntityUtils.toString(response.getEntity());
+			String json ="";// EntityUtils.toString(response.getEntity());
 			Log.d(TAG, "result:" + resCode);
 			if (resCode == HttpStatus.SC_OK || resCode == HttpStatus.SC_CREATED) {
-				if (proxy != null) {
-					Log.d(TAG, resCode + ":" + json.toString());
-					wrapper = proxy.convertJsonToObject(json);
-				}
+//				if (proxy != null) {
+//					Log.d(TAG, resCode + ":" + json.toString());
+//					wrapper = proxy.convertJsonToObject(json);
+//				}
 			} else {
 				Log.d(TAG, json);
 				json = "[{\"message\":\"Netwrok error!\"}]";

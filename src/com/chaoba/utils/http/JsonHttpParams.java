@@ -18,7 +18,7 @@ import android.util.Log;
  */
 public class JsonHttpParams {
 	public static final String JSON_ARRAY_SPLIT = "@*@";
-	private static final String TAG = "HttpParams";
+	private static final String TAG = "JsonHttpParams";
 	private Bundle params;
 	private List<String> keys;
 
@@ -111,11 +111,11 @@ public class JsonHttpParams {
 					if (index == 0) {
 						result += key + "=" + getParamValue(key);
 					} else {
-						result += "&" + key + "=" + getParamValue(key);
+						result += "\n" + key + "=" + getParamValue(key);
 					}
 				}
 			}
-			Log.d(TAG, result);
+			Log.i(TAG, result);
 			try {
 				se = new StringEntity(result);
 			} catch (UnsupportedEncodingException e) {
