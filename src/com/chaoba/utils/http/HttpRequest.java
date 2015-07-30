@@ -21,15 +21,13 @@ import android.util.Log;
 
 public class HttpRequest {
 	private static final String TAG = "HttpRequest";
-	private final DefaultHttpClient httpClient;
+	private static final DefaultHttpClient httpClient = HttpClientFactory
+			.getInstance();
 	static ExecutorService executors = Executors.newCachedThreadPool();
-
-	public HttpRequest() {
-		httpClient = HttpClientFactory.getInstance();
-	}
 
 	/**
 	 * send common post request
+	 * 
 	 * @param url
 	 * @param params
 	 * @param dialog
@@ -37,8 +35,7 @@ public class HttpRequest {
 	 * @param callback
 	 * @param proxy
 	 */
-	public void asynPost(int requsetCode,String url, JsonHttpParams params, Dialog dialog,
-			Header[] headers, AsynRequestCallback callback,
+	public void asynPost(String url, JsonHttpParams params, Header[] headers,
 			HttpRequestProxy proxy) {
 		Log.d(TAG, "asynPost--****" + url);
 		boolean jsonMode = false;
@@ -57,10 +54,10 @@ public class HttpRequest {
 			entity = params.convertParamsToEntity(jsonMode);
 			post.setEntity(entity);
 		}
-		new RequestAsyncTask(requsetCode,dialog, httpClient, callback, proxy)
-				.executeOnExecutor(executors, post);
+		proxy.new RequestAsyncTask(httpClient, proxy).executeOnExecutor(
+				executors, post);
 	}
-	
+
 	/**
 	 * send post request, such as file
 	 * 
@@ -71,9 +68,8 @@ public class HttpRequest {
 	 * @param callback
 	 * @param proxy
 	 */
-	public void asynPost(int requsetCode,String url, JsonHttpParams params, String filePath,
-			Dialog dialog, Header[] headers, AsynRequestCallback callback,
-			HttpRequestProxy proxy) {
+	public void asynPost(String url, JsonHttpParams params, String filePath,
+			Header[] headers, HttpRequestProxy proxy) {
 		Log.d(TAG, "asynPostFile" + url);
 		Log.d(TAG, filePath);
 		HttpPost post = new HttpPost(url);
@@ -93,7 +89,7 @@ public class HttpRequest {
 						valueBody = new StringBody(
 								value,
 								Charset.forName(org.apache.http.protocol.HTTP.UTF_8));
-						Log.d(TAG,"add part key:" + key + " value:" + value);
+						Log.d(TAG, "add part key:" + key + " value:" + value);
 						mpEntity.addPart(key, valueBody);
 					}
 				}
@@ -102,12 +98,11 @@ public class HttpRequest {
 			e.printStackTrace();
 		}
 		post.setEntity(mpEntity);
-		new RequestAsyncTask(requsetCode,dialog, httpClient, callback, proxy)
-				.executeOnExecutor(executors, post);
+		proxy.new RequestAsyncTask(httpClient, proxy).executeOnExecutor(
+				executors, post);
 	}
 
-	public void asynGet(int requsetCode,String url, JsonHttpParams params, Dialog dialog,
-			Header[] headers, AsynRequestCallback callback,
+	public void asynGet(String url, JsonHttpParams params, Header[] headers,
 			HttpRequestProxy proxy) {
 		Log.d(TAG, "asynGet" + url);
 		if (params != null) {
@@ -116,8 +111,8 @@ public class HttpRequest {
 
 		HttpGet get = new HttpGet(url);
 
-		new RequestAsyncTask(requsetCode,dialog, httpClient, callback, proxy)
-				.executeOnExecutor(executors, get);
+		proxy.new RequestAsyncTask(httpClient, proxy).executeOnExecutor(
+				executors, get);
 	}
 
 }
