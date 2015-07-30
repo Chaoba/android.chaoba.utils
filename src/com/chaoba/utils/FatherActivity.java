@@ -1,5 +1,9 @@
 package com.chaoba.utils;
 
+import java.lang.reflect.Field;
+
+import com.chaoba.utils.http.HttpRequestProxy;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -48,6 +52,36 @@ public abstract class FatherActivity extends Activity {
 		mRrightButton = (TextView) findViewById(com.chaoba.utils.R.id.right_button);
 		mBodyViewGroup = (ViewGroup) findViewById(com.chaoba.utils.R.id.body);
 		init();
+	}
+
+	@Override
+	protected void onDestroy() {
+		stop();
+		super.onDestroy();
+	}
+
+	private void stop() {
+		Field[] fields = getClass().getDeclaredFields();
+		if (fields == null || fields.length == 0) {
+			return;
+		}
+		for (Field field : fields) {
+			field.setAccessible(true);
+			Object ins = null;
+			try {
+				ins = field.get(this);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			if (ins == null) {
+				continue;
+			}
+			if (!(ins instanceof HttpRequestProxy)) {
+				continue;
+			}
+			((HttpRequestProxy) ins).stop();
+			field.setAccessible(false);
+		}
 	}
 
 	/**
